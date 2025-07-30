@@ -8,17 +8,21 @@ def main():
         n_threads=4
     )
 
-    prompt = "Quem descobriu o Brasil e em qual ano?"
+    prompt = "Seja objetivo e responda apenas o que for dito/perguntado.\nPergunta: Quais as desvantagens do scrum?"
 
     response = llm.create_completion(
         prompt=prompt,
-        max_tokens=100,
+        suffix="\n\n",
+        max_tokens=None,
         temperature=0.7,
-        top_p=0.9
+        top_p=0.9,
+        stream=True,
     )
 
-    text = response["choices"][0]["text"].strip()
-    print(f"\n=== Resposta ===\n{text}\n")
+    print(f"\n=== Resposta ===\n")
+    for res in response:
+        print(res["choices"][0]["text"], end="", flush=True)
+
 
 if __name__ == "__main__":
     main()
